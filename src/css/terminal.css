@@ -1,0 +1,129 @@
+*,
+*::before,
+*::after {
+   box-sizing: border-box;
+}
+
+body,
+html {
+   height: 100%;
+   width: 100%;
+   margin: 0;
+}
+
+:root {
+   color-scheme: light dark;
+
+   --background: light-dark(hsl(0 0 95), hsl(0 0 5));
+   --text-white: light-dark(hsl(0 0 20), hsl(0 0 80));
+   --text-red: light-dark(hsl(0 70 30), hsl(0 70 60));
+   --text-yellow: light-dark(hsl(70 70 30), hsl(70 70 60));
+   --text-green: light-dark(hsl(100 70 30), hsl(100 70 60));
+   --text-blue: light-dark(hsl(200 70 30), hsl(200 70 60));
+   --text-gray: light-dark(hsl(0 0 40), hsl(0 0 60));
+}
+
+#root {
+   min-height: 100%;
+   background-color: var(--background);
+   color: var(--text-white);
+   font-size: 0.9rem;
+}
+
+#terminal {
+   display: flex;
+   flex-direction: column;
+   font-family: monospace;
+   padding: 2rem;
+   gap: 0.5lh;
+
+   ::selection {
+      background-color: var(--text-white);
+      color: var(--background);
+   }
+
+   .terminal-line {
+      display: flex;
+      position: relative;
+      gap: 1ch;
+
+      &.text {
+         display: block;
+      }
+
+      &.indented {
+         padding-left: 12ch;
+      }
+
+      &:last-child {
+         cursor: text;
+      }
+
+      .prompt {
+         color: var(--text-white);
+      }
+
+      .red {
+         color: var(--text-red);
+      }
+
+      .yellow {
+         color: var(--text-yellow);
+      }
+
+      .green {
+         color: var(--text-green);
+      }
+
+      .blue {
+         color: var(--text-blue);
+      }
+
+      .gray {
+         color: var(--text-gray);
+      }
+
+      .command,
+      .argument,
+      .argument-value {
+         color: var(--text-gray);
+      }
+
+      #command-box {
+         height: 1lh;
+         font-size: 0.9rem;
+         font-family: monospace;
+         padding: 0;
+         background-color: transparent;
+         color: inherit;
+         border: none;
+         outline: none;
+         resize: none;
+         field-sizing: content;
+         caret-color: transparent;
+         pointer-events: none;
+      }
+
+      #caret {
+         width: 1ch;
+         height: 1rem;
+         background-color: hsl(0 0 80);
+         margin-left: calc(-1ch - var(--offset) * 1ch);
+         mix-blend-mode: difference;
+
+         &:not(.paused) {
+            animation: blink 1000ms linear(0, 0 50%, 1 50%) infinite;
+         }
+      }
+   }
+}
+
+@keyframes blink {
+   0% {
+      opacity: 1;
+   }
+
+   100% {
+      opacity: 0;
+   }
+}
