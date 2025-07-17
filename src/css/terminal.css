@@ -63,6 +63,10 @@ html {
          color: var(--text-white);
       }
 
+      .bold {
+         font-weight: bold;
+      }
+
       .red {
          color: var(--text-red);
       }

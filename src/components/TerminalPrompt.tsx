@@ -34,19 +34,9 @@ export default function TerminalPrompt({ commandCallback, clearCallback, history
    }
 
    function updateCmd(cmd: Command, newIdx: number) {
-      let line = cmd.cmd;
-      if (cmd.arguments.length > 0) {
-         line = line.concat(
-            ` ${cmd.arguments
-               .map((arg) => {
-                  return `${arg.key}${arg.value ? ` ${arg.quoted ? `"${arg.value}"` : arg.value}` : ""}`;
-               })
-               .join(" ")}`
-         );
-      }
-      setCmd(line);
+      setCmd(cmd.raw);
       setHistoryIdx(newIdx);
-      setOffset(0);
+      setOffset(cmd.raw.length);
    }
 
    const handleKeydown: KeyboardEventHandler<HTMLInputElement> = (event) => {
@@ -121,21 +111,8 @@ export default function TerminalPrompt({ commandCallback, clearCallback, history
    return (
       <div className="terminal-line" onClick={focusInput}>
          <PromptText />
-         <input
-            type="text"
-            name="command-box"
-            id="command-box"
-            autoFocus
-            onFocus={handleFocus}
-            onBlur={handleBlur}
-            onKeyDown={handleKeydown}
-            onChange={handleChange}
-            value={cmd}
-            ref={inputRef}
-         />
-         {isFocused && (
-            <div id="caret" style={{ "--offset": offset } as CSSProperties} className={isPaused ? "paused" : ""}></div>
-         )}
+         <input autoComplete="off" type="text" name="command-box" id="command-box" autoFocus onFocus={handleFocus} onBlur={handleBlur} onKeyDown={handleKeydown} onChange={handleChange} value={cmd} ref={inputRef} />
+         {isFocused && <div id="caret" style={{ "--offset": offset } as CSSProperties} className={isPaused ? "paused" : ""}></div>}
       </div>
    );
 }
